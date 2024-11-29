@@ -1,0 +1,29 @@
+---
+all:
+  vars:
+    ansible_connection: podman
+    origin_hostname: "{{ lookup('ansible.builtin.env', 'origin_hostname') | default('origin.old.ipa.local') }}"
+    target_hostname: "{{ lookup('ansible.builtin.env', 'target_hostname') | default('target.new.ipa.local') }}"
+  children:
+    ipaserver:
+      vars:
+        ipaserver_setup_dns: true
+        ipaserver_setup_kra: false
+        ipaserver_auto_forwarders: true
+        ipaserver_no_dnssec_validation: true
+        ipaserver_auto_reverse: true
+        ipaserver_setup_firewalld: false
+        ipaclient_no_ntp: true
+        # When using an image with pre-installed packages, uncomment next line
+        # ipaserver_install_packages: false
+      hosts:
+        origin:
+          ipaserver_domain: "{{ origin_hostname.split('.')[1:] | join('.') }}"
+          ipaserver_realm: "{{ ipaserver_domain | upper }}"
+          ipaadmin_password: SomeADMINpassword
+          ipadm_password: SomeDMpassword
+        target:
+          ipaserver_domain: "{{ target_hostname.split('.')[1:] | join('.') }}"
+          ipaserver_realm: "{{ ipaserver_domain | upper }}"
+          ipaadmin_password: SomeADMINpassword
+          ipadm_password: SomeDMpassword

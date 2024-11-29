@@ -1,0 +1,49 @@
+version: "2"
+
+name: ipa2ipa
+
+networks:
+  ipanet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.73.0/24
+          gateway: 192.168.73.1
+
+services:
+  origin:
+    container_name: "origin"
+    image: localhost/ipa2ipa_origin
+    build:
+      dockerfile: containerfiles/fedora-latest
+    security_opt:
+      - label:disable
+    systemd: true
+    no_hosts: true
+    restart: "never"
+    hostname: "${origin_hostname}"
+    memory: "3gb"
+    memswap_limit: -1
+    cap_add:
+      - SYS_ADMIN
+    networks:
+      ipanet:
+        ipv4_address: 192.168.73.100
+  target:
+    container_name: "target"
+    image: localhost/ipa2ipa_target
+    build:
+      dockerfile: containerfiles/fedora-rawhide
+    security_opt:
+      - label:disable
+    systemd: true
+    no_hosts: true
+    restart: "never"
+    hostname: "${target_hostname}"
+    memory: "3gb"
+    memswap_limit: -1
+    cap_add:
+      - SYS_ADMIN
+    networks:
+      ipanet:
+        ipv4_address: 192.168.73.200
