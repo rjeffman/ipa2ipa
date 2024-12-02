@@ -20,9 +20,9 @@ export origin_hostname="origin.old.ipa.local"
 export target_hostname="target.new.ipa.local"
 ```
 
-Start the environment with `podman-compose up -d`.
+> Note: You may also set the hostname and distro on the [config.env](config.env) file.
 
-Whenever you change the hostnames or change the compose file, you should add `--build` to the `podman-compose` command to rebuild the environment.
+Start the environment with `podman-compose up --build -d`.
 
 
 Deploying IPA

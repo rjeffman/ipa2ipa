@@ -2,8 +2,8 @@
 all:
   vars:
     ansible_connection: podman
-    origin_hostname: "{{ lookup('ansible.builtin.env', 'origin_hostname') | default('origin.old.ipa.local') }}"
-    target_hostname: "{{ lookup('ansible.builtin.env', 'target_hostname') | default('target.new.ipa.local') }}"
+    origin_hostname: "{{ lookup('ansible.builtin.env', 'origin_hostname', default='origin.old.ipa.local') }}"
+    target_hostname: "{{ lookup('ansible.builtin.env', 'target_hostname', default='target.new.ipa.local') }}"
   children:
     ipaserver:
       vars:

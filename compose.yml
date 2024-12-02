@@ -13,7 +13,7 @@ services:
     container_name: "origin"
     image: localhost/ipa2ipa_origin
     build:
-      dockerfile: containerfiles/fedora-latest
+      dockerfile: "containerfiles/${origin_distro}"
     security_opt:
       - label:disable
     systemd: true
@@ -27,11 +27,12 @@ services:
     networks:
       ipanet:
         ipv4_address: 192.168.73.100
+
   target:
     container_name: "target"
     image: localhost/ipa2ipa_target
     build:
-      dockerfile: containerfiles/fedora-rawhide
+      dockerfile: "containerfiles/${target_distro}"
     security_opt:
       - label:disable
     systemd: true
