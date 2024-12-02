@@ -43,12 +43,19 @@ pip install ansible-core
 Install the required Ansible collections:
 
 ```
-ansible-galaxy collections install -r requirements.yml
+ansible-galaxy collection install -r requirements.yml
 ```
 
 An Ansible [inventory file](inventory.yml) and a [playbook to deploy the servers](playbooks/install-server.yml) are provided. To customize the depolyment, see ansible-freeipa `ipaserver` role documentation for available variables and modify the inventory file.
 
-Deploy the servers with `ansible-playbook -i inventory.yml playbooks/install-server.yml`. If you want to install one server at a time, use `--limit <container_name>`.
+To keep consistency with the compose hostnames, source the configuration file and deploy the servers:
+
+```
+. config.env
+ansible-playbook -i inventory.yml playbooks/install-server.yml
+```
+
+If you want to install one server at a time, use `--limit <container_name>`.
 
 
 Simple test migration
