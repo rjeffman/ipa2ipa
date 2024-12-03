@@ -22,7 +22,11 @@ export target_hostname="target.new.ipa.local"
 
 > Note: You may also set the hostname and distro on the [config.env](config.env) file.
 
-Start the environment with `podman-compose up --build -d`.
+Start the environment
+
+```
+podman-compose up --build -d
+```
 
 
 Deploying IPA
